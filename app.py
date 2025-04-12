@@ -196,7 +196,7 @@ with stylable_container(
     """
 ):
     st.markdown('<h1 style="color: #f8fafc; margin-bottom: 0.25rem;"><span class="icon-large">🧑‍⚕️</span> HeyDoc - Disease Prediction</h1>', unsafe_allow_html=True)
-    st.markdown('<p style="color: #94a3b8; margin-bottom: 0;">Professional health assessment tool</p>', unsafe_allow_html=True)
+    st.markdown('<p style="color: #94a3b8; margin-bottom: 0;">AI Powered Diagnosis App</p>', unsafe_allow_html=True)
 main_col1, main_col2 = st.columns([2, 1], gap="large")
 
 with main_col1:
