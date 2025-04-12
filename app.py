@@ -380,6 +380,6 @@ st.markdown("""
             <!-- <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Contact Us</a>-->
         </div>
         © 2023 HeyDoc Health Technologies. All rights reserved. 
-        Made By The Mind 🧠 of Ashinth 
+        <br> Made By The Mind 🧠 of Ashinth 
     </div>
     """, unsafe_allow_html=True)
