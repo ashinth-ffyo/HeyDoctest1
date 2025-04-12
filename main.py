@@ -4,6 +4,24 @@ from ai import DiseasePredictor
 import time
 import json
 
+import gdown
+import os
+import joblib
+
+def download_if_needed(file_id, output_name):
+    url = f"https://drive.google.com/uc?id={file_id}"
+    if not os.path.exists(output_name):
+        gdown.download(url, output_name, quiet=False)
+
+file_ids = {
+    "feature_encoders.joblib": "1bNEKUTLz7DQZkigPzJKpJLhJreLlTx7-",
+    "disease_predictor.joblib": "1E0-9bbKUwcdyWL4cxwGYkIkUfUtBeut8",
+    "label_encoder_y.joblib": "1ZO-WYJxD8AySv3Qxc80szBMn7KlsTvR8"
+}
+
+for filename, file_id in file_ids.items():
+    download_if_needed(file_id, filename)
+
 @st.cache_data
 def load_medications_db():
     try:
