@@ -1,140 +1,230 @@
 import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
-from ai import DiseasePredictor  # Import the predictor class
-import time  # For progress bar
+from ai import DiseasePredictor
+import time
+from streamlit_extras.let_it_rain import rain
 
-
+# Configure page
 st.set_page_config(
-    page_title="HeyDoc - Disease Prediction",
+    page_title="HeyDoc - AI-Powered Health Assessment",
     page_icon="🧑‍⚕️",
     layout="centered",
+    initial_sidebar_state="collapsed",
 )
 
+# Custom CSS with enhanced styling
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
     
     html, body, [class*="css"] {
         font-family: 'Poppins', sans-serif;
     }
     
     .main {
-        background-color: #f9fafb;
+        background: linear-gradient(135deg, #f9fafb 0%, #f0f4f8 100%);
     }
     
     .header-container {
-        background-color: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        border-bottom: 3px solid #3b82f6;
+        background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+        color: white;
     }
     
     .container {
-        background-color: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         margin-bottom: 1.5rem;
-        border: 1px solid #e5e7eb;
+        border: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .container:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     }
     
     .section-title {
-        color: #fffff0;
+        color: #3b82f6;
         font-weight: 600;
-        margin-bottom: 1rem;
-        font-size: 1.1rem;
+        margin-bottom: 1.25rem;
+        font-size: 1.25rem;
         letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
     
     .symptom-item {
-        padding: 0.5rem 0.75rem;
-        margin: 0.25rem 0;
-        background-color: #f8fafc;
-        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin: 0.5rem 0;
+        background-color: #f0f7ff;
+        border-radius: 12px;
         color: #1e40af;
         font-weight: 500;
-        border-left: 3px solid #3b82f6;
+        border-left: 4px solid #3b82f6;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+    }
+    
+    .symptom-item:hover {
+        background-color: #e0f2fe;
+        transform: translateX(4px);
     }
     
     .detail-item {
-        padding: 0.5rem 0.75rem;
-        margin: 0.25rem 0;
-        background-color: #f8fafc;
-        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin: 0.5rem 0;
+        background-color: #f0fdf4;
+        border-radius: 12px;
         color: #166534;
-        border-left: 3px solid #10b981;
+        border-left: 4px solid #10b981;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
     
     .risk-item {
-        padding: 0.5rem 0.75rem;
-        margin: 0.25rem 0;
-        background-color: #f8fafc;
-        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin: 0.5rem 0;
+        background-color: #fef2f2;
+        border-radius: 12px;
         color: #991b1b;
-        border-left: 3px solid #ef4444;
+        border-left: 4px solid #ef4444;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
     
     .stButton>button {
-        background-color: #3b82f6;
+        background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
         color: white;
         border: none;
-        border-radius: 8px;
-        padding: 0.75rem 1.5rem;
-        font-weight: 500;
-        transition: all 0.2s;
+        border-radius: 12px;
+        padding: 1rem 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
         width: 100%;
+        box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
     }
     
     .stButton>button:hover {
-        background-color: #2563eb;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+        background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
     }
     
     .prediction-result {
-        font-size: 1.25rem;
-        font-weight: 600;
+        font-size: 1.5rem;
+        font-weight: 700;
         color: #111827;
         text-align: center;
-        margin: 1.5rem 0;
-        padding: 1rem;
-        background-color: #f0fdf4;
-        border-radius: 8px;
-        border-left: 4px solid #10b981;
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: linear-gradient(90deg, #f0fdf4 0%, #ecfdf5 100%);
+        border-radius: 12px;
+        border-left: 6px solid #10b981;
+        box-shadow: 0 4px 6px rgba(16, 185, 129, 0.1);
+        animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
     
     .stSelectbox, .stSlider {
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .stSelectbox>div>div {
+        border-radius: 12px !important;
+        padding: 0.5rem 1rem;
     }
     
     .footer {
         text-align: center;
         color: #6b7280;
-        font-size: 0.85rem;
-        margin-top: 2rem;
-        padding-top: 1rem;
+        font-size: 0.9rem;
+        margin-top: 3rem;
+        padding-top: 1.5rem;
         border-top: 1px solid #e5e7eb;
+    }
+    
+    .progress-bar {
+        height: 8px !important;
+        border-radius: 4px !important;
+    }
+    
+    .success-animation {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    .emoji-icon {
+        font-size: 1.5rem;
+    }
+    
+    .tooltip-icon {
+        cursor: help;
+        margin-left: 0.5rem;
+        color: #6b7280;
+    }
+    
+    .floating { 
+        animation-name: floating;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+    
+    @keyframes floating {
+        0% { transform: translate(0,  0px); }
+        50%  { transform: translate(0, 10px); }
+        100%   { transform: translate(0, -0px); }   
     }
     </style>
     """, unsafe_allow_html=True)
 
+# Header with animated gradient
 with stylable_container(
     key="header_container",
     css_styles="""
         {
-            background-color: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            border-bottom: 3px solid #3b82f6;
+            background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+            color: white;
+            animation: gradient 8s ease infinite;
+            background-size: 200% 200%;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
     """
 ):
-    st.markdown('<h1 style="color: #111827; margin-bottom: 0.25rem;">🧑‍⚕️ HeyDoc - Disease Prediction</h1>', unsafe_allow_html=True)
-    st.markdown('<p style="color: #4b5563; margin-bottom: 0;">Professional health assessment tool</p>', unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        st.markdown('<div class="floating">🧑‍⚕️</div>', unsafe_allow_html=True)
+    with col2:
+        st.markdown('<h1 style="color: white; margin-bottom: 0.25rem;">HeyDoc Health AI</h1>', unsafe_allow_html=True)
+        st.markdown('<p style="color: #e0e7ff; margin-bottom: 0;">Advanced symptom analysis and health assessment</p>', unsafe_allow_html=True)
 
 main_col1, main_col2 = st.columns([2, 1], gap="large")
 
@@ -143,58 +233,59 @@ with main_col1:
         key="symptoms_container",
         css_styles="""
             .container {
-                background-color: white;
-                border: 1px solid #e5e7eb;
+                background: white;
+                border: none;
             }
         """
     ):
         with st.container():
-            st.markdown('<div class="section-title">🌸 SYMPTOMS CHECKLIST</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-title"><span class="emoji-icon">🌸</span> SYMPTOMS CHECKLIST</div>', unsafe_allow_html=True)
             
             symptom_col1, symptom_col2 = st.columns(2)
             
             with symptom_col1:
-                fever = st.selectbox("Fever", ["No", "Yes"], key="fever")
-                cough = st.selectbox("Cough", ["No", "Yes"], key="cough")
-                fatigue = st.selectbox("Fatigue", ["No", "Yes"], key="fatigue")
-                breathing = st.selectbox("Difficulty breathing", ["No", "Yes"], key="breathing")
-                headache = st.selectbox("Headache", ["No", "Yes"], key="headache")
+                fever = st.selectbox("Fever", ["No", "Yes"], key="fever", help="Have you had a fever above 100.4°F (38°C)?")
+                cough = st.selectbox("Cough", ["No", "Yes"], key="cough", help="Persistent cough lasting more than a few days?")
+                fatigue = st.selectbox("Fatigue", ["No", "Yes"], key="fatigue", help="Unusual tiredness or lack of energy?")
+                breathing = st.selectbox("Difficulty breathing", ["No", "Yes"], key="breathing", help="Shortness of breath or labored breathing?")
+                headache = st.selectbox("Headache", ["No", "Yes"], key="headache", help="Persistent or severe headaches?")
             
             with symptom_col2:
-                rash = st.selectbox("Rash", ["No", "Yes"], key="rash")
-                nausea = st.selectbox("Nausea", ["No", "Yes"], key="nausea")
-                joint_pain = st.selectbox("Joint Pain", ["No", "Yes"], key="joint_pain")
-                weight_change = st.selectbox("Weight change", ["No", "Yes"], key="weight_change")
+                rash = st.selectbox("Rash", ["No", "Yes"], key="rash", help="Any unexplained skin rash or irritation?")
+                nausea = st.selectbox("Nausea", ["No", "Yes"], key="nausea", help="Feeling sick to your stomach?")
+                joint_pain = st.selectbox("Joint Pain", ["No", "Yes"], key="joint_pain", help="Pain or discomfort in your joints?")
+                weight_change = st.selectbox("Weight change", ["No", "Yes"], key="weight_change", help="Significant unintentional weight loss or gain?")
 
 with main_col2:
     with stylable_container(
         key="details_container",
         css_styles="""
             .container {
-                background-color: white;
-                border: 1px solid #e5e7eb;
+                background: white;
+                border: none;
             }
         """
     ):
         with st.container():
-            st.markdown('<div class="section-title">📋 PERSONAL DETAILS</div>', unsafe_allow_html=True)
-            age = st.slider("Your Age", min_value=20, max_value=80, value=30, key="age")
-            gender = st.selectbox("Gender", ["Male", "Female", "Other"], key="gender")
+            st.markdown('<div class="section-title"><span class="emoji-icon">📋</span> PERSONAL DETAILS</div>', unsafe_allow_html=True)
+            age = st.slider("Your Age", min_value=20, max_value=80, value=30, key="age", help="Age can affect disease risk factors")
+            gender = st.selectbox("Gender", ["Male", "Female", "Other"], key="gender", help="Some conditions are gender-specific")
     
     with stylable_container(
         key="risk_container",
         css_styles="""
             .container {
-                background-color: white;
-                border: 1px solid #e5e7eb;
+                background: white;
+                border: none;
             }
         """
     ):
         with st.container():
-            st.markdown('<div class="section-title">⚠️ RISK FACTORS</div>', unsafe_allow_html=True)
-            blood_pressure = st.selectbox("Blood pressure", ["Normal", "Low", "High"], key="bp")
-            cholesterol = st.selectbox("Cholesterol level", ["Normal", "Low", "High"], key="chol")
+            st.markdown('<div class="section-title"><span class="emoji-icon">⚠️</span> RISK FACTORS</div>', unsafe_allow_html=True)
+            blood_pressure = st.selectbox("Blood pressure", ["Normal", "Low", "High"], key="bp", help="Current blood pressure status")
+            cholesterol = st.selectbox("Cholesterol level", ["Normal", "Low", "High"], key="chol", help="Current cholesterol level")
 
+# Active symptoms list
 active_symptoms = []
 if fever == "Yes": active_symptoms.append("Fever")
 if cough == "Yes": active_symptoms.append("Cough")
@@ -206,40 +297,43 @@ if nausea == "Yes": active_symptoms.append("Nausea")
 if joint_pain == "Yes": active_symptoms.append("Joint pain")
 if weight_change == "Yes": active_symptoms.append("Weight change")
 
+# Results section
 with stylable_container(
     key="results_container",
     css_styles="""
         .container {
-            background-color: white;
-            border: 1px solid #e5e7eb;
+            background: white;
+            border: none;
         }
     """
 ):
     with st.container():
-        st.markdown('<div class="section-title">✨ HEALTH SUMMARY</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title"><span class="emoji-icon">✨</span> HEALTH SUMMARY</div>', unsafe_allow_html=True)
         
         result_col1, result_col2 = st.columns(2)
         
         with result_col1:
             st.markdown("**Your symptoms:**")
             if not active_symptoms:
-                st.markdown('<div style="color: #6b7280; font-style: italic;">No symptoms selected</div>', unsafe_allow_html=True)
+                st.markdown('<div style="color: #6b7280; font-style: italic; padding: 1rem;">No symptoms selected</div>', unsafe_allow_html=True)
             else:
                 for symptom in active_symptoms:
                     st.markdown(f'<div class="symptom-item">• {symptom}</div>', unsafe_allow_html=True)
         
         with result_col2:
             st.markdown("**Your details:**")
-            st.markdown(f'<div class="detail-item">Age: {age}</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="detail-item">Gender: {gender}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="detail-item">• Age: {age}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="detail-item">• Gender: {gender}</div>', unsafe_allow_html=True)
             st.markdown("**Risk factors:**")
-            st.markdown(f'<div class="risk-item">Blood pressure: {blood_pressure}</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="risk-item">Cholesterol: {cholesterol}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="risk-item">• Blood pressure: {blood_pressure}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="risk-item">• Cholesterol: {cholesterol}</div>', unsafe_allow_html=True)
 
-        # Add a button to trigger prediction
-        predict_button = st.button("Analyze Symptoms", type="primary")
+        # Prediction button centered
+        col1, col2, col3 = st.columns([1,2,1])
+        with col2:
+            predict_button = st.button("Analyze My Symptoms", type="primary", use_container_width=True)
 
-        # Initialize the predictor (we'll cache this to load only once)
+        # Initialize the predictor
         @st.cache_resource
         def load_predictor():
             return DiseasePredictor()
@@ -263,33 +357,63 @@ with stylable_container(
                 'Blood Pressure': blood_pressure,
                 'Cholesterol Level': cholesterol
             }        
+            
+            # Animated progress bar
+            with st.spinner('Analyzing symptoms with AI...'):
+                progress_bar = st.progress(0)
+                for percent_complete in range(100):
+                    time.sleep(0.03)  # Faster animation
+                    progress_bar.progress(percent_complete + 1)
+            
             # Make prediction
             prediction = predictor.predict_disease(new_patient)
-            with st.spinner('Analyzing symptoms...'):
-                progress_bar = st.progress(0)
-            for percent_complete in range(100):
-                time.sleep(0.07)  # Simulate processing time
-                progress_bar.progress(percent_complete + 1)
-        
-            # Display results in a nice container
+            
+            # Celebration animation
+            rain(
+                emoji="🎉",
+                font_size=20,
+                falling_speed=5,
+                animation_length=1,
+            )
+            
+            # Display results with animation
             with stylable_container(
                 key="prediction_container",
                 css_styles="""
                     .container {
-                        background-color: white;
-                        border: 1px solid #e5e7eb;
+                        background: white;
+                        border: none;
                     }
                 """
             ):
                 with st.container():
-                    st.markdown('<div class="section-title">🔍 PREDICTION RESULTS</div>', unsafe_allow_html=True)
-                    st.markdown('Based on your symptoms and health data, the predicted condition is:')
-                    st.markdown(f'<div class="prediction-result">{prediction}</div>', unsafe_allow_html=True)
-                    #st.markdown('<div style="color: #6b7280; font-size: 0.85rem; text-align: center;">This is a predictive model output and should not replace professional medical advice.</div>', unsafe_allow_html=True)
+                    st.markdown('<div class="section-title"><span class="emoji-icon">🔍</span> AI HEALTH ASSESSMENT</div>', unsafe_allow_html=True)
+                    st.markdown('Based on advanced analysis of your symptoms and health profile:')
+                    st.markdown(f'<div class="prediction-result success-animation">{prediction}</div>', unsafe_allow_html=True)
+                    
+                    # Additional recommendations
+                    with st.expander("📌 Health Recommendations"):
+                        st.markdown("""
+                        - **Consult a healthcare professional** for proper diagnosis
+                        - Drink plenty of water and rest
+                        - Monitor your symptoms for changes
+                        - Consider preventive health measures
+                        """)
+                    
+                    st.markdown("""
+                    <div style="text-align: center; color: #6b7280; font-size: 0.85rem; margin-top: 1rem;">
+                        <i>This AI assessment is for informational purposes only and not a substitute for professional medical advice.</i>
+                    </div>
+                    """, unsafe_allow_html=True)
 
-
+# Enhanced footer
 st.markdown("""
     <div class="footer">
-        Made by HeyDoc | Professional Health Assessment
+        <div style="margin-bottom: 0.5rem;">
+            <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Privacy Policy</a> • 
+            <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Terms of Service</a> • 
+            <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Contact Us</a>
+        </div>
+        © 2023 HeyDoc Health Technologies. All rights reserved.
     </div>
     """, unsafe_allow_html=True)
