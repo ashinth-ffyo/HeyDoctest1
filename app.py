@@ -12,13 +12,24 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Custom CSS with enhanced styling
+# Custom CSS with enhanced styling and larger fonts
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
     
     html, body, [class*="css"] {
         font-family: 'Poppins', sans-serif;
+        font-size: 18px;  /* Base font size increased */
+    }
+    
+    h1 {
+        font-size: 2.5rem !important;
+        font-weight: 700 !important;
+    }
+    
+    h2, h3, h4, h5, h6 {
+        font-size: 1.5rem !important;
+        font-weight: 600 !important;
     }
     
     .main {
@@ -28,10 +39,12 @@ st.markdown("""
     .header-container {
         background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
         border-radius: 16px;
-        padding: 2rem;
+        padding: 2.5rem;
         margin-bottom: 2rem;
         box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
         color: white;
+        animation: gradient 8s ease infinite;
+        background-size: 200% 200%;
     }
     
     .container {
@@ -42,6 +55,7 @@ st.markdown("""
         margin-bottom: 1.5rem;
         border: none;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        font-size: 1.1rem;  /* Larger container font */
     }
     
     .container:hover {
@@ -51,56 +65,54 @@ st.markdown("""
     
     .section-title {
         color: #3b82f6;
-        font-weight: 600;
-        margin-bottom: 1.25rem;
-        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem !important;  /* Larger section titles */
         letter-spacing: 0.5px;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
     }
     
     .symptom-item {
-        padding: 0.75rem 1rem;
-        margin: 0.5rem 0;
+        padding: 1rem 1.25rem;
+        margin: 0.75rem 0;
         background-color: #f0f7ff;
         border-radius: 12px;
         color: #1e40af;
         font-weight: 500;
+        font-size: 1.1rem;
         border-left: 4px solid #3b82f6;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
         transition: all 0.2s ease;
     }
     
-    .symptom-item:hover {
-        background-color: #e0f2fe;
-        transform: translateX(4px);
-    }
-    
     .detail-item {
-        padding: 0.75rem 1rem;
-        margin: 0.5rem 0;
+        padding: 1rem 1.25rem;
+        margin: 0.75rem 0;
         background-color: #f0fdf4;
         border-radius: 12px;
         color: #166534;
+        font-size: 1.1rem;
         border-left: 4px solid #10b981;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
     }
     
     .risk-item {
-        padding: 0.75rem 1rem;
-        margin: 0.5rem 0;
+        padding: 1rem 1.25rem;
+        margin: 0.75rem 0;
         background-color: #fef2f2;
         border-radius: 12px;
         color: #991b1b;
+        font-size: 1.1rem;
         border-left: 4px solid #ef4444;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
     }
     
     .stButton>button {
@@ -108,26 +120,21 @@ st.markdown("""
         color: white;
         border: none;
         border-radius: 12px;
-        padding: 1rem 2rem;
+        padding: 1.25rem 2rem;
         font-weight: 600;
+        font-size: 1.2rem;
         transition: all 0.3s ease;
         width: 100%;
         box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
     }
     
-    .stButton>button:hover {
-        background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
-    }
-    
     .prediction-result {
-        font-size: 1.5rem;
+        font-size: 1.8rem !important;  /* Much larger prediction text */
         font-weight: 700;
         color: #111827;
         text-align: center;
         margin: 2rem 0;
-        padding: 1.5rem;
+        padding: 2rem;
         background: linear-gradient(90deg, #f0fdf4 0%, #ecfdf5 100%);
         border-radius: 12px;
         border-left: 6px solid #10b981;
@@ -135,65 +142,55 @@ st.markdown("""
         animation: fadeIn 0.5s ease;
     }
     
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
     .stSelectbox, .stSlider {
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
+        font-size: 1.1rem;
     }
     
     .stSelectbox>div>div {
         border-radius: 12px !important;
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1rem !important;
+        font-size: 1.1rem !important;
+    }
+    
+    .stSlider>div>div>div {
+        font-size: 1.1rem !important;
     }
     
     .footer {
         text-align: center;
         color: #6b7280;
-        font-size: 0.9rem;
+        font-size: 1rem;
         margin-top: 3rem;
         padding-top: 1.5rem;
         border-top: 1px solid #e5e7eb;
     }
     
-    .progress-bar {
-        height: 8px !important;
-        border-radius: 4px !important;
+    /* Larger tooltips */
+    .stTooltip {
+        font-size: 1rem !important;
+        max-width: 300px !important;
     }
     
-    .success-animation {
-        animation: pulse 2s infinite;
+    /* Larger expander text */
+    .stExpander>div>div>div>div {
+        font-size: 1.1rem !important;
+        line-height: 1.6 !important;
     }
     
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
-    }
-    
-    .emoji-icon {
-        font-size: 1.5rem;
-    }
-    
-    .tooltip-icon {
-        cursor: help;
-        margin-left: 0.5rem;
-        color: #6b7280;
-    }
-    
-    .floating { 
-        animation-name: floating;
-        animation-duration: 3s;
-        animation-iteration-count: infinite;
-        animation-timing-function: ease-in-out;
-    }
-    
-    @keyframes floating {
-        0% { transform: translate(0,  0px); }
-        50%  { transform: translate(0, 10px); }
-        100%   { transform: translate(0, -0px); }   
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        html, body, [class*="css"] {
+            font-size: 16px;
+        }
+        
+        .container {
+            padding: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.3rem !important;
+        }
     }
     </style>
     """, unsafe_allow_html=True)
