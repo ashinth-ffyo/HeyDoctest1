@@ -6,7 +6,7 @@ from streamlit_extras.let_it_rain import rain
 
 # Configure page
 st.set_page_config(
-    page_title="HeyDoc - AI-Powered Health Assessment",
+    page_title="HeyDoc - AI-Powered Diagnosis ",
     page_icon="🧑‍⚕️",
     layout="centered",
     initial_sidebar_state="collapsed",
@@ -370,12 +370,6 @@ with stylable_container(
                         - Monitor your symptoms for changes
                         - Consider preventive health measures
                         """)
-                    
-                    st.markdown("""
-                    <div style="text-align: center; color: #6b7280; font-size: 0.85rem; margin-top: 1rem;">
-                        <i>This AI assessment is for informational purposes only and not a substitute for professional medical advice.</i>
-                    </div>
-                    """, unsafe_allow_html=True)
 
 # Enhanced footer
 st.markdown("""
@@ -385,6 +379,6 @@ st.markdown("""
             <!-- <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Terms of Service</a> • -->
             <!-- <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Contact Us</a>-->
         </div>
-        © 2023 HeyDoc Health Technologies. All rights reserved.
+        © 2023 HeyDoc Health Technologies. All rights reserved. Made By The Mind 🧠 of Ashinth 
     </div>
     """, unsafe_allow_html=True)
