@@ -12,189 +12,90 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Custom CSS with enhanced styling and larger fonts
+# Custom CSS with EXTRA LARGE, CLEAR fonts
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
     
+    /* BASE FONT SIZE INCREASED TO 20PX */
     html, body, [class*="css"] {
         font-family: 'Poppins', sans-serif;
-        font-size: 18px;  /* Base font size increased */
+        font-size: 20px !important;
     }
     
+    /* SUPER LARGE HEADINGS */
     h1 {
-        font-size: 2.5rem !important;
+        font-size: 2.8rem !important;  /* 45px */
         font-weight: 700 !important;
+        line-height: 1.2 !important;
     }
     
-    h2, h3, h4, h5, h6 {
-        font-size: 1.5rem !important;
-        font-weight: 600 !important;
-    }
-    
-    .main {
-        background: linear-gradient(135deg, #f9fafb 0%, #f0f4f8 100%);
-    }
-    
-    .header-container {
-        background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
-        border-radius: 16px;
-        padding: 2.5rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
-        color: white;
-        animation: gradient 8s ease infinite;
-        background-size: 200% 200%;
-    }
-    
-    .container {
-        background: white;
-        border-radius: 16px;
-        padding: 2rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        margin-bottom: 1.5rem;
-        border: none;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        font-size: 1.1rem;  /* Larger container font */
-    }
-    
-    .container:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    }
-    
+    /* SECTION TITLES */
     .section-title {
         color: #3b82f6;
-        font-weight: 700;
+        font-weight: 700 !important;
         margin-bottom: 1.5rem;
-        font-size: 1.5rem !important;  /* Larger section titles */
+        font-size: 1.8rem !important;  /* 29px */
         letter-spacing: 0.5px;
         display: flex;
         align-items: center;
         gap: 0.75rem;
     }
     
-    .symptom-item {
-        padding: 1rem 1.25rem;
-        margin: 0.75rem 0;
-        background-color: #f0f7ff;
-        border-radius: 12px;
-        color: #1e40af;
-        font-weight: 500;
-        font-size: 1.1rem;
-        border-left: 4px solid #3b82f6;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        transition: all 0.2s ease;
-    }
-    
-    .detail-item {
-        padding: 1rem 1.25rem;
-        margin: 0.75rem 0;
-        background-color: #f0fdf4;
-        border-radius: 12px;
-        color: #166534;
-        font-size: 1.1rem;
-        border-left: 4px solid #10b981;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-    
-    .risk-item {
-        padding: 1rem 1.25rem;
-        margin: 0.75rem 0;
-        background-color: #fef2f2;
-        border-radius: 12px;
-        color: #991b1b;
-        font-size: 1.1rem;
-        border-left: 4px solid #ef4444;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-    
-    .stButton>button {
-        background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        padding: 1.25rem 2rem;
-        font-weight: 600;
-        font-size: 1.2rem;
-        transition: all 0.3s ease;
-        width: 100%;
-        box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
-    }
-    
-    .prediction-result {
-        font-size: 1.8rem !important;  /* Much larger prediction text */
-        font-weight: 700;
-        color: #111827;
-        text-align: center;
-        margin: 2rem 0;
-        padding: 2rem;
-        background: linear-gradient(90deg, #f0fdf4 0%, #ecfdf5 100%);
-        border-radius: 12px;
-        border-left: 6px solid #10b981;
-        box-shadow: 0 4px 6px rgba(16, 185, 129, 0.1);
-        animation: fadeIn 0.5s ease;
-    }
-    
+    /* FORM ELEMENTS */
     .stSelectbox, .stSlider {
-        margin-bottom: 1.25rem;
-        font-size: 1.1rem;
+        font-size: 1.2rem !important;  /* 19px */
     }
     
     .stSelectbox>div>div {
-        border-radius: 12px !important;
-        padding: 0.75rem 1rem !important;
-        font-size: 1.1rem !important;
+        padding: 1rem 1.25rem !important;
+        font-size: 1.2rem !important;
     }
     
-    .stSlider>div>div>div {
-        font-size: 1.1rem !important;
+    /* SYMPTOM ITEMS */
+    .symptom-item, .detail-item, .risk-item {
+        padding: 1.25rem !important;
+        margin: 1rem 0 !important;
+        font-size: 1.3rem !important;  /* 21px */
+        border-left-width: 5px !important;
     }
     
+    /* PREDICTION RESULT - VERY LARGE */
+    .prediction-result {
+        font-size: 2.2rem !important;  /* 35px */
+        padding: 2rem !important;
+    }
+    
+    /* BUTTON TEXT */
+    .stButton>button {
+        font-size: 1.4rem !important;  /* 22px */
+        padding: 1.5rem !important;
+    }
+    
+    /* FOOTER */
     .footer {
-        text-align: center;
-        color: #6b7280;
-        font-size: 1rem;
-        margin-top: 3rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid #e5e7eb;
+        font-size: 1.1rem !important;  /* 18px */
     }
     
-    /* Larger tooltips */
+    /* TOOLTIPS */
     .stTooltip {
-        font-size: 1rem !important;
-        max-width: 300px !important;
-    }
-    
-    /* Larger expander text */
-    .stExpander>div>div>div>div {
         font-size: 1.1rem !important;
-        line-height: 1.6 !important;
     }
     
-    /* Responsive adjustments */
+    /* MOBILE RESPONSIVENESS */
     @media (max-width: 768px) {
         html, body, [class*="css"] {
-            font-size: 16px;
+            font-size: 18px !important;
         }
-        
-        .container {
-            padding: 1.5rem;
+        h1 {
+            font-size: 2.2rem !important;
         }
-        
         .section-title {
-            font-size: 1.3rem !important;
+            font-size: 1.5rem !important;
         }
     }
     </style>
     """, unsafe_allow_html=True)
-
 # Header with animated gradient
 with stylable_container(
     key="header_container",
