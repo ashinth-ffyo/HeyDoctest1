@@ -15,84 +15,142 @@ st.set_page_config(
 # Custom CSS with EXTRA LARGE, CLEAR fonts
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
     
-    /* BASE FONT SIZE INCREASED TO 20PX */
     html, body, [class*="css"] {
-        font-family: 'Poppins', sans-serif;
-        font-size: 20px !important;
+        font-family: 'Inter', sans-serif;
     }
     
-    /* SUPER LARGE HEADINGS */
-    h1 {
-        font-size: 2.8rem !important;  /* 45px */
-        font-weight: 700 !important;
-        line-height: 1.2 !important;
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 600;
     }
     
-    /* SECTION TITLES */
-    .section-title {
-        color: #3b82f6;
-        font-weight: 700 !important;
+    .main {
+        background-color: #f9fafb;
+    }
+    
+    .header-container {
+        background-color: white;
+        border-radius: 12px;
+        padding: 1.5rem;
         margin-bottom: 1.5rem;
-        font-size: 1.8rem !important;  /* 29px */
-        letter-spacing: 0.5px;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border-bottom: 3px solid #3b82f6;
     }
     
-    /* FORM ELEMENTS */
-    .stSelectbox, .stSlider {
-        font-size: 1.2rem !important;  /* 19px */
+    .container {
+        background-color: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        margin-bottom: 1.5rem;
+        border: 1px solid #e5e7eb;
     }
     
-    .stSelectbox>div>div {
-        padding: 1rem 1.25rem !important;
-        font-size: 1.2rem !important;
+    .section-title {
+        color: #111827;
+        font-family: 'Playfair Display', serif;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+        letter-spacing: 0.25px;
+        border-bottom: 2px solid #f3f4f6;
+        padding-bottom: 0.5rem;
     }
     
-    /* SYMPTOM ITEMS */
-    .symptom-item, .detail-item, .risk-item {
-        padding: 1.25rem !important;
-        margin: 1rem 0 !important;
-        font-size: 1.3rem !important;  /* 21px */
-        border-left-width: 5px !important;
+    .symptom-item {
+        padding: 0.5rem 0.75rem;
+        margin: 0.25rem 0;
+        background-color: #f8fafc;
+        border-radius: 8px;
+        color: #1e40af;
+        font-weight: 500;
+        border-left: 3px solid #3b82f6;
+        font-family: 'Inter', sans-serif;
     }
     
-    /* PREDICTION RESULT - VERY LARGE */
-    .prediction-result {
-        font-size: 2.2rem !important;  /* 35px */
-        padding: 2rem !important;
+    .detail-item {
+        padding: 0.5rem 0.75rem;
+        margin: 0.25rem 0;
+        background-color: #f8fafc;
+        border-radius: 8px;
+        color: #166534;
+        border-left: 3px solid #10b981;
+        font-family: 'Inter', sans-serif;
     }
     
-    /* BUTTON TEXT */
+    .risk-item {
+        padding: 0.5rem 0.75rem;
+        margin: 0.25rem 0;
+        background-color: #f8fafc;
+        border-radius: 8px;
+        color: #991b1b;
+        border-left: 3px solid #ef4444;
+        font-family: 'Inter', sans-serif;
+    }
+    
     .stButton>button {
-        font-size: 1.4rem !important;  /* 22px */
-        padding: 1.5rem !important;
+        background-color: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        width: 100%;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
     }
     
-    /* FOOTER */
+    .stButton>button:hover {
+        background-color: #2563eb;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+    }
+    
+    .prediction-result {
+        font-size: 1.5rem;
+        font-family: 'Playfair Display', serif;
+        font-weight: 600;
+        color: #111827;
+        text-align: center;
+        margin: 1.5rem 0;
+        padding: 1.5rem;
+        background-color: #f0fdf4;
+        border-radius: 8px;
+        border-left: 4px solid #10b981;
+    }
+    
+    .stSelectbox, .stSlider {
+        margin-bottom: 0.5rem;
+    }
+    
     .footer {
-        font-size: 1.1rem !important;  /* 18px */
+        text-align: center;
+        color: #6b7280;
+        font-size: 0.85rem;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e5e7eb;
+        font-family: 'Inter', sans-serif;
     }
     
-    /* TOOLTIPS */
-    .stTooltip {
-        font-size: 1.1rem !important;
+    /* Additional typography improvements */
+    .stMarkdown p {
+        line-height: 1.6;
+        color: #4b5563;
     }
     
-    /* MOBILE RESPONSIVENESS */
-    @media (max-width: 768px) {
-        html, body, [class*="css"] {
-            font-size: 18px !important;
-        }
-        h1 {
-            font-size: 2.2rem !important;
-        }
-        .section-title {
-            font-size: 1.5rem !important;
-        }
+    .stSelectbox label, .stSlider label {
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 0.25rem;
+    }
+    
+    /* More elegant select boxes */
+    .st-bd, .st-bc, .st-bb, .st-at {
+        border-radius: 8px !important;
     }
     </style>
     """, unsafe_allow_html=True)
