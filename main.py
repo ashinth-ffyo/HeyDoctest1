@@ -1,38 +1,8 @@
 import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
-from ai import DiseasePredictor
-import time
-import json
+from ai import DiseasePredictor  # Import the predictor class
+import time  # For progress bar
 
-@st.cache_data
-def load_medications_db():
-    try:
-        with open('medications.json', 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        st.error("Medications database not found")
-        return {}
-
-def display_treatment_info(disease_info):
-    for key, value in disease_info.items():
-        with stylable_container(
-            key=f"treatment_{key}",
-            css_styles="""
-                {
-                    background-color: white;
-                    border-radius: 8px;
-                    padding: 1rem;
-                    margin: 0.5rem 0;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                }
-            """
-        ):
-            st.markdown(f"### {key}")
-            if isinstance(value, list):
-                for item in value:
-                    st.markdown(f"• {item}")
-            else:
-                st.write(value)
 
 st.set_page_config(
     page_title="HeyDoc - Disease Prediction",
@@ -133,18 +103,6 @@ st.markdown("""
         background-color: #f0fdf4;
         border-radius: 8px;
         border-left: 4px solid #10b981;
-    }
-    
-    .treatment-section {
-        background-color: #f8fafc;
-        border-radius: 8px;
-        padding: 1rem;
-        margin: 0.5rem 0;
-    }
-    
-    .emergency-item {
-        background-color: #ffebee;
-        border-left: 3px solid #f44336;
     }
     
     .stSelectbox, .stSlider {
@@ -278,8 +236,10 @@ with stylable_container(
             st.markdown(f'<div class="risk-item">Blood pressure: {blood_pressure}</div>', unsafe_allow_html=True)
             st.markdown(f'<div class="risk-item">Cholesterol: {cholesterol}</div>', unsafe_allow_html=True)
 
+        # Add a button to trigger prediction
         predict_button = st.button("Analyze Symptoms", type="primary")
 
+        # Initialize the predictor (we'll cache this to load only once)
         @st.cache_resource
         def load_predictor():
             return DiseasePredictor()
@@ -287,6 +247,7 @@ with stylable_container(
         predictor = load_predictor()
 
         if predict_button:
+            # Prepare the input data
             new_patient = {
                 'Fever': fever,
                 'Cough': cough,
@@ -302,13 +263,15 @@ with stylable_container(
                 'Blood Pressure': blood_pressure,
                 'Cholesterol Level': cholesterol
             }        
+            # Make prediction
             prediction = predictor.predict_disease(new_patient)
             with st.spinner('Analyzing symptoms...'):
                 progress_bar = st.progress(0)
             for percent_complete in range(100):
-                time.sleep(0.07)
+                time.sleep(0.07)  # Simulate processing time
                 progress_bar.progress(percent_complete + 1)
         
+            # Display results in a nice container
             with stylable_container(
                 key="prediction_container",
                 css_styles="""
@@ -322,29 +285,8 @@ with stylable_container(
                     st.markdown('<div class="section-title">🔍 PREDICTION RESULTS</div>', unsafe_allow_html=True)
                     st.markdown('Based on your symptoms and health data, the predicted condition is:')
                     st.markdown(f'<div class="prediction-result">{prediction}</div>', unsafe_allow_html=True)
-                    st.session_state['prediction'] = prediction.lower()
+                    #st.markdown('<div style="color: #6b7280; font-size: 0.85rem; text-align: center;">This is a predictive model output and should not replace professional medical advice.</div>', unsafe_allow_html=True)
 
-if 'prediction' in st.session_state:
-    medications_db = load_medications_db()
-    treatment_button = st.button("View Treatment Information")
-    
-    if treatment_button:
-        predicted_disease = st.session_state['prediction']
-        if predicted_disease in medications_db:
-            with stylable_container(
-                key="treatment_container",
-                css_styles="""
-                    .container {
-                        background-color: white;
-                        border: 1px solid #e5e7eb;
-                    }
-                """
-            ):
-                with st.container():
-                    st.markdown('<div class="section-title">💊 TREATMENT INFORMATION</div>', unsafe_allow_html=True)
-                    display_treatment_info(medications_db[predicted_disease])
-        else:
-            st.error(f"Illness '{predicted_disease}' not found in database. Available conditions: {', '.join(list(medications_db.keys()))}")
 
 st.markdown("""
     <div class="footer">
