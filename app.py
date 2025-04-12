@@ -381,9 +381,9 @@ with stylable_container(
 st.markdown("""
     <div class="footer">
         <div style="margin-bottom: 0.5rem;">
-            <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Privacy Policy</a> • 
-            <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Terms of Service</a> • 
-            <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Contact Us</a>
+            <!-- <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Privacy Policy</a> • -->
+            <!-- <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Terms of Service</a> • -->
+            <!-- <a href="#" style="color: #3b82f6; text-decoration: none; margin: 0 0.5rem;">Contact Us</a>-->
         </div>
         © 2023 HeyDoc Health Technologies. All rights reserved.
     </div>
