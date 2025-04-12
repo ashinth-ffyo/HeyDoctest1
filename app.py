@@ -19,52 +19,59 @@ st.markdown("""
     
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
+        color: #e5e7eb;
+        background-color: #0f172a;
+    }
+    
+    .stApp {
+        background-color: #0f172a;
     }
     
     h1, h2, h3, h4, h5, h6 {
         font-family: 'Playfair Display', serif;
         font-weight: 600;
+        color: #f8fafc;
     }
     
     .main {
-        background-color: #f9fafb;
+        background-color: #0f172a;
     }
     
     .header-container {
-        background-color: white;
+        background-color: #1e293b;
         border-radius: 12px;
         padding: 1.5rem;
         margin-bottom: 1.5rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         border-bottom: 3px solid #3b82f6;
     }
     
     .container {
-        background-color: white;
+        background-color: #1e293b;
         border-radius: 12px;
         padding: 1.5rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         margin-bottom: 1.5rem;
-        border: 1px solid #e5e7eb;
+        border: 1px solid #334155;
     }
     
     .section-title {
-        color: #111827;
+        color: #f8fafc;
         font-family: 'Playfair Display', serif;
         font-weight: 600;
         margin-bottom: 1rem;
         font-size: 1.25rem;
         letter-spacing: 0.25px;
-        border-bottom: 2px solid #f3f4f6;
+        border-bottom: 2px solid #334155;
         padding-bottom: 0.5rem;
     }
     
     .symptom-item {
         padding: 0.5rem 0.75rem;
         margin: 0.25rem 0;
-        background-color: #f8fafc;
+        background-color: #334155;
         border-radius: 8px;
-        color: #1e40af;
+        color: #93c5fd;
         font-weight: 500;
         border-left: 3px solid #3b82f6;
         font-family: 'Inter', sans-serif;
@@ -73,9 +80,9 @@ st.markdown("""
     .detail-item {
         padding: 0.5rem 0.75rem;
         margin: 0.25rem 0;
-        background-color: #f8fafc;
+        background-color: #334155;
         border-radius: 8px;
-        color: #166534;
+        color: #86efac;
         border-left: 3px solid #10b981;
         font-family: 'Inter', sans-serif;
     }
@@ -83,9 +90,9 @@ st.markdown("""
     .risk-item {
         padding: 0.5rem 0.75rem;
         margin: 0.25rem 0;
-        background-color: #f8fafc;
+        background-color: #334155;
         border-radius: 8px;
-        color: #991b1b;
+        color: #fca5a5;
         border-left: 3px solid #ef4444;
         font-family: 'Inter', sans-serif;
     }
@@ -113,11 +120,11 @@ st.markdown("""
         font-size: 1.5rem;
         font-family: 'Playfair Display', serif;
         font-weight: 600;
-        color: #111827;
+        color: #f8fafc;
         text-align: center;
         margin: 1.5rem 0;
         padding: 1.5rem;
-        background-color: #f0fdf4;
+        background-color: #1e3a8a;
         border-radius: 8px;
         border-left: 4px solid #10b981;
     }
@@ -128,29 +135,49 @@ st.markdown("""
     
     .footer {
         text-align: center;
-        color: #6b7280;
+        color: #94a3b8;
         font-size: 0.85rem;
         margin-top: 2rem;
         padding-top: 1rem;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid #334155;
         font-family: 'Inter', sans-serif;
     }
     
-    /* Additional typography improvements */
-    .stMarkdown p {
+    /* Larger medical icon */
+    .icon-large {
+        font-size: 2.5rem;
+        vertical-align: middle;
+        margin-right: 0.5rem;
+    }
+    
+    /* Light text for better contrast */
+    .stMarkdown p, .stSelectbox label, .stSlider label {
         line-height: 1.6;
-        color: #4b5563;
+        color: #e5e7eb;
     }
     
     .stSelectbox label, .stSlider label {
         font-weight: 500;
-        color: #374151;
+        color: #f8fafc;
         margin-bottom: 0.25rem;
     }
     
-    /* More elegant select boxes */
+    /* Dark theme form elements */
     .st-bd, .st-bc, .st-bb, .st-at {
         border-radius: 8px !important;
+        background-color: #334155 !important;
+        color: #f8fafc !important;
+        border-color: #475569 !important;
+    }
+    
+    /* Dropdown menu styling */
+    .st-cj {
+        background-color: #1e293b !important;
+    }
+    
+    /* Slider track color */
+    .st-emotion-cache-1m7p7tn {
+        background-color: #3b82f6 !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -159,29 +186,17 @@ with stylable_container(
     key="header_container",
     css_styles="""
         {
-            background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
-            border-radius: 16px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
-            color: white;
-            animation: gradient 8s ease infinite;
-            background-size: 200% 200%;
-        }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            background-color: #1e293b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            border-bottom: 3px solid #3b82f6;
         }
     """
 ):
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        st.markdown('<div class="floating">🧑‍⚕️</div>', unsafe_allow_html=True)
-    with col2:
-        st.markdown('<h1 style="color: white; margin-bottom: 0.25rem;">HeyDoc Health AI</h1>', unsafe_allow_html=True)
-        st.markdown('<p style="color: #e0e7ff; margin-bottom: 0;">Advanced symptom analysis and health assessment</p>', unsafe_allow_html=True)
-
+    st.markdown('<h1 style="color: #f8fafc; margin-bottom: 0.25rem;"><span class="icon-large">🧑‍⚕️</span> HeyDoc - Disease Prediction</h1>', unsafe_allow_html=True)
+    st.markdown('<p style="color: #94a3b8; margin-bottom: 0;">Professional health assessment tool</p>', unsafe_allow_html=True)
 main_col1, main_col2 = st.columns([2, 1], gap="large")
 
 with main_col1:
