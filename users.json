@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "admin",
+      "email": "nomail",
+      "is_admin": true,
+      "usage_count": 0
+    },
+    {
+      "username": "test",
+      "password": "test",
+      "email": "ashinth.sethmin@gmail.com",
+      "is_admin": false,
+      "usage_count": 1
+    }
+  ]
+}
